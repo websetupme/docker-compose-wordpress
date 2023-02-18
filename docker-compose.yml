@@ -9,38 +9,40 @@ services:
       context: .
       dockerfile: nginx.dockerfile
     container_name: nginx
+    restart: always
     ports:
-      - 80:80
-      - 443:443
+      - 8082:80
+#       - 443:443
     volumes:
       - ./wordpress:/var/www/html:delegated
     depends_on:
       - php
-      - mysql
+#       - mysql
     networks:
       - wordpress
 
-  mysql:
-    image: mysql:5.7.29
-    container_name: mysql
-    restart: always
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: wp
-      MYSQL_USER: wp
-      MYSQL_PASSWORD: secret
-      MYSQL_ROOT_PASSWORD: secret
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    networks:
-      - wordpress
+#   mysql:
+#     image: mysql:5.7.29
+#     container_name: mysql
+#     restart: always
+#     ports:
+#       - 3306:3306
+#     environment:
+#       MYSQL_DATABASE: wp
+#       MYSQL_USER: wp
+#       MYSQL_PASSWORD: secret
+#       MYSQL_ROOT_PASSWORD: secret
+#       SERVICE_TAGS: dev
+#       SERVICE_NAME: mysql
+#     networks:
+#       - wordpress
 
   php:
     build:
       context: .
       dockerfile: php.dockerfile
     container_name: php
+    restart: always
     volumes:
       - ./wordpress:/var/www/html:delegated
     networks:
